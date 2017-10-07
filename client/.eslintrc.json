@@ -1,0 +1,11 @@
+{
+  "extends": "eslint-config-es/2015/client",
+
+  "globals": {
+    "wolkenkit": true
+  },
+
+  "rules": {
+    "strict": 0
+  }
+}

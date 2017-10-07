@@ -1,0 +1,51 @@
+{
+  "name": "wolkenkit-todomvc",
+  "version": "0.0.0",
+  "description": "wolkenkit-todomvc is a todo application.",
+  "contributors": [
+    {
+      "name": "Golo Roden",
+      "email": "golo.roden@thenativeweb.io"
+    },
+    {
+      "name": "Matthias Wagler",
+      "email": "matthias.wagler@thenativeweb.io"
+    },
+    {
+      "name": "Christian Nolte",
+      "email": "christian.nolte@thenativeweb.io"
+    },
+    {
+      "name": "Jan-Hendrik Grundhöfer",
+      "email": "jan-hendrik.grundhoefer@thenativeweb.io"
+    }
+  ],
+  "wolkenkit": {
+    "application": "todomvc",
+    "runtime": {
+      "version": "1.1.0"
+    },
+    "environments": {
+      "default": {
+        "api": {
+          "address": {
+            "host": "local.wolkenkit.io",
+            "port": 3000
+          },
+          "allowAccessFrom": "*"
+        },
+        "node": {
+          "environment": "development"
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "wolkenkit-command-tools": "1.0.0"
+  },
+  "devDependencies": {
+    "roboter": "0.15.4",
+    "roboter-server": "0.15.4"
+  },
+  "license": "AGPL-3.0"
+}
