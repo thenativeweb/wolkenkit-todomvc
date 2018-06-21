@@ -6,7 +6,7 @@ const fields = {
   tickedOff: false
 };
 
-const when = {
+const projections = {
   'planning.todo.noted' (todosStats, event) {
     todosStats.add({
       id: event.aggregate.id,
@@ -25,4 +25,4 @@ const when = {
   }
 };
 
-module.exports = { fields, when };
+module.exports = { fields, projections };
