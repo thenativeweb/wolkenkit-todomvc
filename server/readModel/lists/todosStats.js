@@ -7,16 +7,14 @@ const fields = {
 };
 
 const when = {
-  'planning.todo.noted' (todosStats, event, mark) {
+  'planning.todo.noted' (todosStats, event) {
     todosStats.add({
       id: event.aggregate.id,
       notedAt: event.metadata.timestamp
     });
-
-    mark.asDone();
   },
 
-  'planning.todo.tickedOff' (todosStats, event, mark) {
+  'planning.todo.tickedOff' (todosStats, event) {
     todosStats.update({
       where: { id: event.aggregate.id },
       set: {
@@ -24,8 +22,6 @@ const when = {
         tickedOff: true
       }
     });
-
-    mark.asDone();
   }
 };
 

@@ -1,6 +1,6 @@
 'use strict';
 
-const only = require('wolkenkit-command-tools').only;
+const { only } = require('wolkenkit-command-tools');
 
 const initialState = {
   title: undefined,
@@ -30,99 +30,87 @@ const initialState = {
 const commands = {
   note: [
     only.ifNotExists(),
-    only.ifValidatedBy({
+    only.ifCommandValidatedBy({
       type: 'object',
       properties: {
         title: { type: 'string', minLength: 1 }
       },
       required: [ 'title' ]
     }),
-    (todo, command, mark) => {
+    (todo, command) => {
       todo.events.publish('noted', {
         title: command.data.title
       });
-
-      mark.asDone();
     }
   ],
 
   edit: [
     only.ifExists(),
-    only.ifValidatedBy({
+    only.ifCommandValidatedBy({
       type: 'object',
       properties: {
         title: { type: 'string', minLength: 1 }
       },
       required: [ 'title' ]
     }),
-    (todo, command, mark) => {
+    (todo, command) => {
       if (todo.state.title === command.data.title) {
-        return mark.asRejected('New title is not different from the old one.');
+        return command.reject('New title is not different from the old one.');
       }
 
       todo.events.publish('edited', {
         title: command.data.title
       });
-
-      mark.asDone();
     }
   ],
 
   tickOff: [
     only.ifExists(),
-    (todo, command, mark) => {
+    (todo, command) => {
       if (todo.state.isTickedOff) {
-        return mark.asRejected('Todo was already ticked off.');
+        return command.reject('Todo was already ticked off.');
       }
 
       todo.events.publish('tickedOff');
-
-      mark.asDone();
     }
   ],
 
   resume: [
     only.ifExists(),
-    (todo, command, mark) => {
+    (todo, command) => {
       if (!todo.state.isTickedOff) {
-        return mark.asRejected('Todo was not yet ticked off.');
+        return command.reject('Todo was not yet ticked off.');
       }
 
       todo.events.publish('resumed');
-
-      mark.asDone();
     }
   ],
 
   archive: [
     only.ifExists(),
-    (todo, command, mark) => {
+    (todo, command) => {
       if (todo.state.isArchived) {
-        return mark.asRejected('Todo was already archived.');
+        return command.reject('Todo was already archived.');
       }
       if (!todo.state.isTickedOff) {
-        return mark.asRejected('Todo was not yet ticked off.');
+        return command.reject('Todo was not yet ticked off.');
       }
 
       todo.events.publish('archived');
-
-      mark.asDone();
     }
   ],
 
   discard: [
     only.ifExists(),
-    (todo, command, mark) => {
+    (todo, command) => {
       if (todo.state.isDiscarded) {
-        return mark.asRejected('Todo was already discarded.');
+        return command.reject('Todo was already discarded.');
       }
       if (todo.state.isTickedOff) {
-        return mark.asRejected('Todo was already ticked off.');
+        return command.reject('Todo was already ticked off.');
       }
 
       todo.events.publish('discarded');
-
-      mark.asDone();
     }
   ]
 };

@@ -6,57 +6,45 @@ const fields = {
 };
 
 const when = {
-  'planning.todo.noted' (todos, event, mark) {
+  'planning.todo.noted' (todos, event) {
     todos.add({
       id: event.aggregate.id,
       timestamp: event.metadata.timestamp,
       title: event.data.title
     });
-
-    mark.asDone();
   },
 
-  'planning.todo.edited' (todos, event, mark) {
+  'planning.todo.edited' (todos, event) {
     todos.update({
       where: { id: event.aggregate.id },
       set: { title: event.data.title }
     });
-
-    mark.asDone();
   },
 
-  'planning.todo.tickedOff' (todos, event, mark) {
+  'planning.todo.tickedOff' (todos, event) {
     todos.update({
       where: { id: event.aggregate.id },
       set: { isTickedOff: true }
     });
-
-    mark.asDone();
   },
 
-  'planning.todo.resumed' (todos, event, mark) {
+  'planning.todo.resumed' (todos, event) {
     todos.update({
       where: { id: event.aggregate.id },
       set: { isTickedOff: false }
     });
-
-    mark.asDone();
   },
 
-  'planning.todo.archived' (todos, event, mark) {
+  'planning.todo.archived' (todos, event) {
     todos.remove({
       where: { id: event.aggregate.id }
     });
-
-    mark.asDone();
   },
 
-  'planning.todo.discarded' (todos, event, mark) {
+  'planning.todo.discarded' (todos, event) {
     todos.remove({
       where: { id: event.aggregate.id }
     });
-
-    mark.asDone();
   }
 };
 
